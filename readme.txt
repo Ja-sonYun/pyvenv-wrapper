@@ -12,3 +12,5 @@ To use with specific python version (pyenv), use below,
 `pyv new <VENV_NAME> <PYTHON_VERSION>`
 will backup current pyenv global and switch to specific version, and create virtualenv,
 after created, revert to previous pyenv global version.
+
+# support zsh autocompletion
