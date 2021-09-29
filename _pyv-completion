@@ -1,0 +1,45 @@
+#compdef pyv
+
+export PYVENV_ROOT="$HOME/.pyvenv"
+
+_pyv ()
+{
+    local -a commands
+    local first_cmd=$(echo $words | cut -d" " -f2)
+    local version_cmd=$(echo $words | cut -d" " -f4)
+
+    commands=(
+        "new:create new virtual environment"
+        "activate:activate virtual environment"
+        "deactivate:deactivate virtual environment"
+        "remove:remove virtual environment"
+        "list:show list of virtual environments in local device"
+    )
+
+    _arguments -C \
+      '1: :->cmds'
+
+    local env_lists=("${(@f)$(ls $PYVENV_ROOT)}")
+
+    case "$state" in
+        (cmds)
+            _describe 'environments' env_lists
+            _describe 'commands' commands
+        ;;
+        (sm)
+            _describe 'commands' commands
+        ;;
+    esac
+
+    case $first_cmd in
+        activate | remove)
+            _describe 'environments' env_lists
+        ;;
+    esac
+
+    # if [ ! -z $version_cmd ]; then
+    #     _describe 'pyenv versions' 
+    # fi
+}
+
+compdef _pyv pyv

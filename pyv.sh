@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PYVENV_ROOT="$HOME/.pyvenv"
+source _pyv-completion
 
 function pyv() {
     ENV_FILE=".pv"
@@ -25,7 +25,7 @@ function pyv() {
                     pyenv global `cat $PYVENV_ROOT/$ENV_FILE`
                 fi
             fi;;
-        active | a )
+        activate | a )
             if [ -d "$TARGET_ENV" ]; then
                 source $TARGET_ENV/bin/activate
             else
