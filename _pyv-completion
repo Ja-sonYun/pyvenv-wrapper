@@ -5,8 +5,6 @@ export PYVENV_ROOT="$HOME/.pyvenv"
 _pyv ()
 {
     local -a commands
-    local first_cmd=$(echo $words | cut -d" " -f2)
-    local version_cmd=$(echo $words | cut -d" " -f4)
 
     commands=(
         "new:create new virtual environment"
@@ -26,20 +24,19 @@ _pyv ()
             _describe 'environments' env_lists
             _describe 'commands' commands
         ;;
-        (sm)
-            _describe 'commands' commands
-        ;;
     esac
 
-    case $first_cmd in
+    case $words[2] in
         activate | remove)
             _describe 'environments' env_lists
         ;;
+        new)
+            if [ ! -z $words[3] ]; then
+                local available_versions=(${(@f)$(pyenv versions | awk -F' ' '{if($1=="*") print $2; else if($1!~"system") print $1;}')})
+                _describe 'pyenv versions' available_versions
+            fi
+        ;;
     esac
-
-    # if [ ! -z $version_cmd ]; then
-    #     _describe 'pyenv versions' 
-    # fi
 }
 
 compdef _pyv pyv
