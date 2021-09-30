@@ -28,10 +28,12 @@ _pyv ()
 
     case $words[2] in
         activate | remove)
-            _describe 'environments' env_lists
+            if [ ${#words[@]} = 3 ]; then
+                _describe 'environments' env_lists
+            fi
         ;;
         new)
-            if [ ! -z $words[3] ]; then
+            if [ ${#words[@]} = 4 ]; then
                 local available_versions=(${(@f)$(pyenv versions | awk -F' ' '{if($1=="*") print $2; else if($1!~"system") print $1;}')})
                 _describe 'pyenv versions' available_versions
             fi
